@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    peck-on-rails (0.1.0)
+      peck
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    peck (0.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  peck-on-rails!
