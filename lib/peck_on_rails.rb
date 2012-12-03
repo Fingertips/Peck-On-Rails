@@ -17,7 +17,7 @@ class Peck
       end
 
       def self.backtrace_cleaner
-        @backtrace_cleaner ||= ::Rails::BacktraceCleaner.new
+        ::Rails.backtrace_cleaner
       end
     end
 
