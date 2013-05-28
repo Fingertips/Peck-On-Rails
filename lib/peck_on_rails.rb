@@ -299,6 +299,16 @@ class Peck
       end
     end
 
+    class Response < ResponseRequirement
+      def description(verb, action, params={})
+        description = ["should"]
+        description << "not" if (negated == false)
+        description << "be allowed to #{verb.upcase}s `#{action}'"
+        description << "#{params.inspect}" unless params.blank?
+        description.join(' ')
+      end
+    end
+
     class Specification
       def require_login
         requirement = RequireLogin.new(context)
@@ -321,6 +331,14 @@ class Peck
         requirement.negated = !@negated
         requirement.method = :allowed?
         requirement.expected = true
+        requirement
+      end
+
+      def find
+        requirement = Response.new(context)
+        requirement.negated = !@negated
+        requirement.method = :status
+        requirement.expected = :ok
         requirement
       end
     end
