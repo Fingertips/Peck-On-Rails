@@ -254,14 +254,29 @@ class Peck
     class ResponseRequirement < Peck::Should::Proxy
       SUPPORTED_VERBS = [:get, :post, :put, :delete, :options]
 
-      attr_accessor :method, :expected
+      attr_accessor :method, :exception, :expected
 
       def define_specification(verb, action, params={})
         _method = self.method
+        _negated = self.negated
         _expected = self.expected
+        _exception = self.exception
         context.it(description(verb, action, params)) do
-          send(verb, action, immediate_values(params))
-          send(_method).should == _expected
+          begin
+            send(verb, action, immediate_values(params))
+          rescue => raised_exception
+            if _negated
+              raised_exception.should.be.kind_of(_exception)
+            else
+              raised_exception.should.not.be.kind_of(_exception)
+            end
+          else
+            if _negated
+              send(_method).should.not == _expected
+            else
+              send(_method).should == _expected
+            end
+          end
         end
       end
 
@@ -300,10 +315,12 @@ class Peck
     end
 
     class Response < ResponseRequirement
+      attr_accessor :verb_description
+
       def description(verb, action, params={})
         description = ["should"]
         description << "not" if (negated == false)
-        description << "be allowed to #{verb.upcase}s `#{action}'"
+        description << "#{verb_description} `#{action}'"
         description << "#{params.inspect}" unless params.blank?
         description.join(' ')
       end
@@ -328,7 +345,7 @@ class Peck
 
       def allow
         requirement = Disallow.new(context)
-        requirement.negated = !@negated
+        requirement.negated = @negated
         requirement.method = :allowed?
         requirement.expected = true
         requirement
@@ -336,9 +353,15 @@ class Peck
 
       def find
         requirement = Response.new(context)
-        requirement.negated = !@negated
+        requirement.negated = @negated
+        requirement.verb_description = 'find'
         requirement.method = :status
-        requirement.expected = :ok
+        if @negated
+          requirement.expected = :not_found
+          requirement.exception = ActiveRecord::RecordNotFound
+        else
+          requirement.expected = :ok
+        end
         requirement
       end
     end
