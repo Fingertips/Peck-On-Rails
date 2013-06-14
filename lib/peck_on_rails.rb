@@ -244,6 +244,14 @@ class Peck
         ].each do |klass|
           klass.send(:init, context, context_type, subject)
         end
+
+        context.before do
+          setup_fixtures if respond_to?(:setup_fixtures)
+        end
+
+        context.after do
+          teardown_fixtures if respond_to?(:teardown_fixtures)
+        end
       end
     end
   end
