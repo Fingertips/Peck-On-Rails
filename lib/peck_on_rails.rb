@@ -114,7 +114,7 @@ class Peck
         def templates
           # Force body to be read in case the template is being streamed
           response.body
-          @templates.keys
+          (@templates || @_templates).keys
         end
 
         def body
