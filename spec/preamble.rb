@@ -9,6 +9,8 @@ require 'rails'
 require 'active_record'
 require 'action_controller'
 
+puts "Running on Rails #{Rails.version}"
+
 Dir.glob(File.expand_path('../implementation/**/*.rb', __FILE__)).each do |lib|
   require lib
 end
