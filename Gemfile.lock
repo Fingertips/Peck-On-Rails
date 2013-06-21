@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    peck-on-rails (0.1.0)
+    peck-on-rails (0.1.2)
       peck
 
 GEM
