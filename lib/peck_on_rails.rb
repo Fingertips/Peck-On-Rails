@@ -2,7 +2,6 @@
 
 require 'active_support/testing/assertions'
 require 'active_support/testing/deprecation'
-require 'active_support/testing/isolation'
 require 'active_support/core_ext/kernel/reporting'
 require 'active_support/deprecation'
 require 'rails/backtrace_cleaner'
