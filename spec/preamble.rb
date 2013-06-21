@@ -9,8 +9,14 @@ require 'rails'
 require 'active_record'
 require 'action_controller'
 
-class Author < ActiveRecord::Base
-  self.abstract_class = true
+Dir.glob(File.expand_path('../implementation/**/*.rb', __FILE__)).each do |lib|
+  require lib
+end
+
+module Rails
+  def self.root
+    File.expand_path('../implementation', __FILE__)
+  end
 end
 
 class FakeContext
