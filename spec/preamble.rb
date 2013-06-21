@@ -9,8 +9,6 @@ require 'rails'
 require 'active_record'
 require 'action_controller'
 
-# ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
-
 class Author < ActiveRecord::Base
   self.abstract_class = true
 end
