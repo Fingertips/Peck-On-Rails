@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'peck-on-rails'
-  spec.version = '0.1.2'
+  spec.version = '0.2.0'
 
   spec.author = "Manfred Stienstra"
   spec.email = "manfred@fngtps.com"
