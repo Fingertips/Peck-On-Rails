@@ -4,3 +4,4 @@ rvm:
   - 2.0.0
 before_install: "touch ~/do_not_run_bundle"
 install:        "./install.sh"
+script:         "rake spec"
