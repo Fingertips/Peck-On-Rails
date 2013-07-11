@@ -211,7 +211,9 @@ class Peck
     HELPER_RE = /Helper$/
 
     def self.context_type_for_subject(context, subject)
-      if subject < ActionController::Base
+      if subject.nil?
+        :plain
+      elsif subject < ActionController::Base
         :controller
       elsif subject < ActiveRecord::Base
         :model
@@ -226,7 +228,7 @@ class Peck
       context_type =
         context_type_for_description(context, subject) ||
         context_type_for_subject(context, subject)
-      Peck.log("Using `#{context_type}' as context type for `#{subject.name}'")
+      Peck.log("Using `#{context_type}' as context type for `#{subject.respond_to?(:name) ? subject.name : subject}'")
       context_type
     end
 
