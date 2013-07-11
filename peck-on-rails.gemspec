@@ -20,5 +20,5 @@ Gem::Specification.new do |spec|
   spec.rdoc_options << "--charset=utf-8"
 
   spec.add_dependency('peck')
-  spec.add_development_dependency('rails', ' ~> 3.2.0')
+  spec.add_development_dependency('rails')
 end
