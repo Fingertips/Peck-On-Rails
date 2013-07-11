@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.expand_path('../preamble', __FILE__)
+require 'preamble'
 
 describe Author do
   it "has the correct fixture path configured" do

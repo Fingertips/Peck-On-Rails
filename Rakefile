@@ -1,9 +1,21 @@
+require 'rake/testtask'
+
 task :default => [:specs]
 
+RAILS_VERSIONS = %w(rails32 rails40)
+
 desc "Run all specs"
-task :specs do
-  FileList['spec/*_spec.rb'].sort.each do |spec|
-    sh "ruby -I lib #{spec} -e ''"
+task :specs => RAILS_VERSIONS.map { |v| 'specs:'+v }
+
+namespace :specs do
+  test_files = FileList['spec/*_spec.rb']
+  RAILS_VERSIONS.each do |rails_version|
+    desc "Test against against #{rails_version}"
+    task rails_version do
+      test_files.each do |spec|
+        sh "ruby -I spec/rails/#{rails_version} -I lib #{spec} -e ''"
+      end
+    end
   end
 end
 

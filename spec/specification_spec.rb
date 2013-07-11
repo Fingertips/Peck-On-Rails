@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.expand_path('../preamble', __FILE__)
+require 'preamble'
 
 describe Peck::Should::Specification do
   it "initializes a potential specification for checking if a resource is found" do
