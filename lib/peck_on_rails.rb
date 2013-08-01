@@ -276,8 +276,10 @@ class Peck
           rescue => raised_exception
             if _negated
               raised_exception.should.be.kind_of(_exception)
-            else
+            elsif _exception
               raised_exception.should.not.be.kind_of(_exception)
+            else
+              raise
             end
           else
             if _negated
