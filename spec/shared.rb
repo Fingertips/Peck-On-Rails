@@ -3,6 +3,18 @@
 $:.unshift File.expand_path("../../lib", __FILE__)
 
 require 'peck/flavors/vanilla'
+
+# A quick hack to turn off the backtrace cleaner
+class Peck
+  class Notifiers
+    class Base
+      def clean_backtrace(backtrace)
+        backtrace
+      end
+    end
+  end
+end
+
 require 'peck_on_rails'
 
 require 'rails'
