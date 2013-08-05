@@ -364,7 +364,6 @@ class Peck
 
       def find
         requirement = Response.new(context)
-        requirement.negated = @negated
         requirement.verb_description = 'find'
         requirement.method = :status
         if @negated

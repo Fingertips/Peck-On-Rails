@@ -31,7 +31,7 @@ describe Peck::Should::Specification do
 
     it "is not found" do
       rec = @spec.not.find
-      rec.negated.should == true
+      rec.negated.should == false
       rec.method.should == :status
       rec.expected.should == :not_found
     end
