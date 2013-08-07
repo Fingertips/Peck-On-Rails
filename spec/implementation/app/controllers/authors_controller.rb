@@ -6,4 +6,12 @@ class AuthorsController < ActionController::Base
   def index
     render :nothing => true
   end
+
+  def restricted
+    render :nothing => true, :status => 401
+  end
+
+  def disallowed
+    render :nothing => true, :status => 403
+  end
 end

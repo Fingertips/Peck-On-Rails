@@ -19,6 +19,7 @@ require 'peck_on_rails'
 require 'rails'
 require 'active_record'
 require 'action_controller'
+require 'rack/test'
 
 puts "Running on Rails #{Rails.version}"
 
@@ -39,7 +40,9 @@ end
 Vanilla::Application.initialize!
 
 Vanilla::Application.routes.draw do
-  resources :authors
+  get 'authors', :to => 'authors#index'
+  get 'authors/restricted', :to => 'authors#restricted'
+  get 'authors/disallowed', :to => 'authors#disallowed'
 end
 
 Dir.glob(File.expand_path('../implementation/**/*.rb', __FILE__)).each do |lib|
