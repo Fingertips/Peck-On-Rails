@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.expand_path('../rails/rails40/preamble', __FILE__)
+require 'preamble'
 
 describe AuthorsController do
   it "has the correct routes configured" do

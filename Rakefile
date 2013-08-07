@@ -8,13 +8,11 @@ desc "Run all specs"
 task :specs => RAILS_VERSIONS.map { |v| 'specs:'+v }
 
 namespace :specs do
-  test_files = FileList['spec/*_spec.rb']
+  test_files = FileList['spec/*_spec.rb'].map {|f| File.expand_path(f)}
   RAILS_VERSIONS.each do |rails_version|
     desc "Test against against #{rails_version}"
     task rails_version do
-      test_files.each do |spec|
-        sh "ruby -I spec/rails/#{rails_version} -I lib #{spec} -e ''"
-      end
+      sh "ruby -I spec/rails/#{rails_version} -I lib -e 'ARGV.each {|f| require f }' #{test_files.join(' ')}"
     end
   end
 end
