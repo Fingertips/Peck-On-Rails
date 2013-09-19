@@ -274,10 +274,12 @@ class Peck
           begin
             send(verb, action, immediate_values(params))
           rescue => raised_exception
-            if _negated
-              raised_exception.should.be.kind_of(_exception)
-            elsif _exception
-              raised_exception.should.not.be.kind_of(_exception)
+            if _exception
+              if _negated
+                raised_exception.should.be.kind_of(_exception)
+              else
+                raised_exception.should.not.be.kind_of(_exception)
+              end
             else
               raise
             end
