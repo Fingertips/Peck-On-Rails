@@ -2,6 +2,6 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
-before_install: "touch ~/do_not_run_bundle"
+  - 2.1.0
 install:        "./install.sh"
 script:         "rake specs"
