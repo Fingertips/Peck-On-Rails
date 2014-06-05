@@ -233,6 +233,10 @@ class Peck
     end
 
     def self.init
+      if defined?(ActiveRecord)
+        Peck.log("Migrate database if necessary")
+        ActiveRecord::Migration.load_schema_if_pending!
+      end
       Peck.log("Setting up Peck::Rails")
       proc do |context|
         subject      = Peck::Rails.subject(context)
