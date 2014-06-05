@@ -267,11 +267,21 @@ class Peck
         end
 
         context.before do
-          setup_fixtures if respond_to?(:setup_fixtures)
+          if respond_to?(:setup_fixtures)
+            begin
+              setup_fixtures
+            rescue ActiveRecord::ConnectionNotEstablished
+            end
+          end
         end
 
         context.after do
-          teardown_fixtures if respond_to?(:teardown_fixtures)
+          if respond_to?(:teardown_fixtures)
+            begin
+              teardown_fixtures
+            rescue ActiveRecord::ConnectionNotEstablished
+            end
+          end
         end
       end
     end
