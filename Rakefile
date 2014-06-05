@@ -2,7 +2,7 @@ require 'rake/testtask'
 
 task :default => [:specs]
 
-RAILS_VERSIONS = %w(rails32 rails40)
+RAILS_VERSIONS = %w(rails32 rails40 rails41)
 
 desc "Run all specs"
 task :specs => RAILS_VERSIONS.map { |v| 'specs:'+v }
