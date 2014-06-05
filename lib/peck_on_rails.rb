@@ -8,6 +8,20 @@ require 'rails/backtrace_cleaner'
 
 class Peck
   class Rails
+    def self.dev_null
+      @dev_null ||= File.open('/dev/null', 'w')
+    end
+
+    def self.silence
+      stdout, stderr = $stdout, $stderr
+      $stdout, $stderr = dev_null, dev_null
+      begin
+        yield
+      ensure
+        $stdout, $stderr = stdout, stderr
+      end
+    end
+
     module BacktraceCleaning
       protected
 
@@ -66,7 +80,9 @@ class Peck
               self._controller_class = Peck::Rails.subject(self)
             end
 
-            include ::ActionController::TestCase::Behavior
+            Peck::Rails.silence do
+              include ::ActionController::TestCase::Behavior
+            end
             include ::Peck::Rails::Controller::Helpers
             extend ::Peck::Rails::Controller::Fixtures
           end
