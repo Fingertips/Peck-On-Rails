@@ -181,7 +181,7 @@ class Peck
         end
 
         def document
-          if defined?(:Nokogiri)
+          if defined?(Nokogiri)
             @document ||= Nokogiri::HTML.parse(@response.body)
           else
             raise RuntimeError, "Please install Nokogiri to use the CSS or Xpath matchers (gem install nokogiri)"
@@ -189,7 +189,7 @@ class Peck
         end
 
         def json
-          if defined?(:JSON)
+          if defined?(JSON)
             @json ||= JSON.parse(@response.body)
           else
             raise RuntimeError, "Please install a JSON gem to use the json accessor (gem install json)"
