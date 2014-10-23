@@ -6,6 +6,8 @@ require 'active_support/core_ext/kernel/reporting'
 require 'active_support/deprecation'
 require 'rails/backtrace_cleaner'
 
+require 'peck_on_rails/backtrace_cleaning'
+
 class Peck
   class Rails
     def self.dev_null
@@ -19,24 +21,6 @@ class Peck
         yield
       ensure
         $stdout, $stderr = stdout, stderr
-      end
-    end
-
-    module BacktraceCleaning
-      protected
-
-      def clean_backtrace(backtrace)
-        super Peck::Rails::BacktraceCleaning.backtrace_cleaner.clean(backtrace)
-      end
-
-      def self.backtrace_cleaner
-        ::Rails.backtrace_cleaner
-      end
-    end
-
-    class Context
-      def self.init(context, context_type, subject)
-        Peck.log("Peck::Rails::Context.init")
       end
     end
 
@@ -56,7 +40,9 @@ class Peck
         if [:model, :controller, :helper].include?(context_type)
           Peck.log("Peck::Rails::Model.init")
           context.class_eval do
-            include ::ActiveRecord::TestFixtures
+            if defined?(::ActiveRecord)
+              include ::ActiveRecord::TestFixtures
+            end
             self.fixture_path = File.join(::Rails.root, 'test', 'fixtures')
             fixtures :all
             define_method(:method_name) { self.class.label }
@@ -229,9 +215,9 @@ class Peck
     def self.context_type_for_subject(context, subject)
       if subject.nil?
         :plain
-      elsif subject < ActionController::Base
+      elsif defined?(ActionController) && subject < ActionController::Base
         :controller
-      elsif subject < ActiveRecord::Base
+      elsif defined?(ActiveRecord) && subject < ActiveRecord::Base
         :model
       elsif subject.name =~ HELPER_RE
         :helper
@@ -258,7 +244,6 @@ class Peck
         subject      = Peck::Rails.subject(context)
         context_type = Peck::Rails.context_type(context, subject)
         [
-          Peck::Rails::Context,
           Peck::Rails::Helper,
           Peck::Rails::Model,
           Peck::Rails::Controller
@@ -293,23 +278,20 @@ class Peck
     class ResponseRequirement < Peck::Should::Proxy
       SUPPORTED_VERBS = [:get, :post, :put, :delete, :options]
 
-      attr_accessor :method, :exception, :expected
+      attr_accessor :method, :allowed_exceptions, :expected
 
       def define_specification(verb, action, params={})
         _method = self.method
         _negated = self.negated
         _expected = self.expected
-        _exception = self.exception
+        _allowed_exceptions = self.allowed_exceptions
         context.it(description(verb, action, params)) do
           begin
             send(verb, action, immediate_values(params))
           rescue => raised_exception
-            if _exception
-              if _negated
-                raised_exception.should.be.kind_of(_exception)
-              else
-                raised_exception.should.not.be.kind_of(_exception)
-              end
+            if _allowed_exceptions
+              _allowed_exceptions.any? { |exception| raised_exception.should.be.kind_of(exception) }
+              true.should == true # Force the expectations counter
             else
               raise
             end
@@ -370,6 +352,18 @@ class Peck
     end
 
     class Specification
+      def self.allowed_exceptions
+        allowed_exceptions = []
+        if defined?(ActiveRecord)
+          allowed_exceptions << ActiveRecord::RecordNotFound
+        end
+        if defined?(AbstractController)
+          allowed_exceptions << AbstractController::ActionNotFound
+        end
+        allowed_exceptions
+      end
+      ALLOWED_EXCEPTIONS = allowed_exceptions
+      
       def require_login
         requirement = RequireLogin.new(context)
         requirement.negated = @negated
@@ -400,7 +394,7 @@ class Peck
         requirement.method = :status
         if @negated
           requirement.expected = :not_found
-          requirement.exception = ActiveRecord::RecordNotFound
+          requirement.allowed_exceptions = ALLOWED_EXCEPTIONS
         else
           requirement.expected = :ok
         end
