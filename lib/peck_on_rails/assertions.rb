@@ -127,6 +127,46 @@ class Peck
       end
     end
 
+    def equal_record_set(*others)
+      left = @this.flatten
+      right = others.flatten
+
+      message = "Expected the record set to be #{!@negated ? 'equal' : 'unequal'}: #{left.map(&:id).inspect} - #{right.map(&:id).inspect}"
+      satisfy(message) { Set.new(left) == Set.new(right) }
+    end
+
+    def equal_record_array(*others)
+      left = @this.flatten
+      right = others.flatten
+
+      message = "Expected the array of records to be #{!@negated ? 'equal' : 'unequal'}: #{left.map(&:id).inspect} - #{right.map(&:id).inspect}"
+      satisfy(message) { left == right }
+    end
+
+    def equal_set(*others)
+      left = @this.flatten
+      right = others.flatten
+
+      message = "Expected sets to be #{!@negated ? 'equal' : 'unequal'}: #{left.inspect} - #{right.inspect}"
+      satisfy(message) { Set.new(left) == Set.new(right) }
+    end
+
+    def equal_keys(other)
+      left = @this.keys.map(&:to_s).sort
+      right = other.map(&:to_s).sort
+
+      missing_from_left = left - right
+      missing_from_right = right - left
+      message = "Expected the object to #{!@negated ? 'have' : 'not have'} the same keys:\n#{left.inspect}\n#{right.inspect}\n>>> #{missing_from_left.inspect}\n<<< #{missing_from_right.inspect}"
+      satisfy(message) { left == right }
+    end
+
+    def redirect_to(somewhere)
+      message = "Expected to redirect to `#{somewhere}'"
+      response = @this.send(:response)
+      satisfy(message) { [301, 302].include?(response.status.to_i) && response.location == somewhere }
+    end
+
     def validate_with(attribute, value)
       message = "Expected #{!@negated ? 'no' : ''}errors on #{attribute.inspect} with value `#{value.inspect}' after validation"
 
