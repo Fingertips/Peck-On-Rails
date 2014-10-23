@@ -39,12 +39,6 @@ end
 
 Vanilla::Application.initialize!
 
-Vanilla::Application.routes.draw do
-  get 'authors', :to => 'authors#index'
-  get 'authors/restricted', :to => 'authors#restricted'
-  get 'authors/disallowed', :to => 'authors#disallowed'
-end
-
 Dir.glob(File.expand_path('../implementation/**/*.rb', __FILE__)).each do |lib|
   require lib
 end
