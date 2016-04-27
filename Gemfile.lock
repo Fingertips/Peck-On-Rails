@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    peck-on-rails (0.2.1)
+    peck-on-rails (0.3.0)
       peck
 
 GEM
@@ -43,7 +43,7 @@ GEM
     mime-types (1.23)
     minitest (4.7.5)
     multi_json (1.7.7)
-    peck (0.2.1)
+    peck (0.5.4)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -86,3 +86,6 @@ PLATFORMS
 DEPENDENCIES
   peck-on-rails!
   rails
+
+BUNDLED WITH
+   1.11.2
