@@ -125,6 +125,18 @@ class Peck
         end
         requirement
       end
+
+      def redirect
+        requirement = Response.new(context)
+        requirement.verb_description = 'redirect'
+        requirement.method = :status
+        if @negated
+          requirement.expected = :ok
+        else
+          requirement.expected = :found
+        end
+        requirement
+      end
     end
 
     def equal_record_set(*others)

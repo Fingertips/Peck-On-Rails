@@ -36,4 +36,6 @@ describe AuthorsController, "concerning controller-specific requirements" do
 
   should.find.get :index
   should.not.find.get :show, id: 12
+
+  should.redirect.delete :destroy, id: 12
 end

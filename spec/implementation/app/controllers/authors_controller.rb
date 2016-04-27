@@ -14,4 +14,8 @@ class AuthorsController < ActionController::Base
   def disallowed
     render :nothing => true, :status => 403
   end
+
+  def destroy
+    redirect_to(:action => 'index')
+  end
 end
