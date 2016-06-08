@@ -4,14 +4,14 @@ class AuthorsController < ActionController::Base
   include Rails.application.routes.url_helpers
 
   def index
-    render :nothing => true
+    head :ok
   end
 
   def restricted
-    render :nothing => true, :status => 401
+    head :unauthorized
   end
 
   def disallowed
-    render :nothing => true, :status => 403
+    head :forbidden
   end
 end
