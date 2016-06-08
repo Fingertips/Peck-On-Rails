@@ -12,7 +12,12 @@ class Peck
         _allowed_exceptions = self.allowed_exceptions
         context.it(description(verb, action, params)) do
           begin
-            send(verb, action, immediate_values(params))
+            immediate_values = immediate_values(params)
+            if immediate_values.present?
+              send(verb, action, immediate_values)
+            else
+              send(verb, action)
+            end
           rescue => raised_exception
             if _allowed_exceptions
               _allowed_exceptions.any? { |exception| raised_exception.should.be.kind_of(exception) }
