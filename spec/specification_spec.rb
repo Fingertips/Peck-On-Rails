@@ -10,30 +10,30 @@ describe Peck::Should::Specification do
   describe "initializes a potential specification for checking if a resource" do
     it "requires a login" do
       rec = @spec.require_login
-      rec.negated.should == false
-      rec.method.should == :login_required?
-      rec.expected.should == true
+      rec.negated.should.eql(false)
+      rec.method.should.eql(:login_required?)
+      rec.expected.should.eql(true)
     end
 
     it "does not require a login" do
       rec = @spec.not.require_login
-      rec.negated.should == true
-      rec.method.should == :login_required?
-      rec.expected.should == true
+      rec.negated.should.eql(true)
+      rec.method.should.eql(:login_required?)
+      rec.expected.should.eql(true)
     end
 
     it "is found" do
       rec = @spec.find
-      rec.negated.should == false
-      rec.method.should == :status
-      rec.expected.should == :ok
+      rec.negated.should.eql(false)
+      rec.method.should.eql(:status)
+      rec.expected.should.eql(:ok)
     end
 
     it "is not found" do
       rec = @spec.not.find
-      rec.negated.should == false
-      rec.method.should == :status
-      rec.expected.should == :not_found
+      rec.negated.should.eql(false)
+      rec.method.should.eql(:status)
+      rec.expected.should.eql(:not_found)
     end
   end
 end

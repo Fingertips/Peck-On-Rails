@@ -8,7 +8,7 @@ describe AuthorsController do
   end
 
   it "has the right controller class configured" do
-    _controller_class.should == AuthorsController
+    _controller_class.should.eql(AuthorsController)
   end
 end
 

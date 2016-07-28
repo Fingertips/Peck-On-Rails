@@ -13,10 +13,10 @@ describe Peck::Rails do
 
   it "returns the subject of a context" do
     context = FakeContext.new(:description => [@subject])
-    Peck::Rails.subject(context).should == @subject
+    Peck::Rails.subject(context).should.eql(@subject)
 
     context = FakeContext.new(:description => ["A", @subject])
-    Peck::Rails.subject(context).should == @subject
+    Peck::Rails.subject(context).should.eql(@subject)
 
     context = FakeContext.new(:description => ["Any plain object"])
     Peck::Rails.subject(context).should.be.nil
@@ -24,9 +24,9 @@ describe Peck::Rails do
 
   it "returns the proper context type for a subject" do
     context = FakeContext.new(:description => [@subject])
-    Peck::Rails.context_type(context, @subject).should == :model
+    Peck::Rails.context_type(context, @subject).should.eql(:model)
 
     context = FakeContext.new(:description => ["Any plain object"])
-    Peck::Rails.context_type(context, nil).should == :plain
+    Peck::Rails.context_type(context, nil).should.eql(:plain)
   end
 end

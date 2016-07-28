@@ -21,7 +21,7 @@ class Peck
           rescue => raised_exception
             if _allowed_exceptions
               _allowed_exceptions.any? { |exception| raised_exception.should.be.kind_of(exception) }
-              true.should == true # Force the expectations counter
+              true.should.eql(true) # Force the expectations counter
             else
               raise
             end
@@ -29,7 +29,7 @@ class Peck
             if _negated
               send(_method).should.not == _expected
             else
-              send(_method).should == _expected
+              send(_method).should.eql(_expected)
             end
           end
         end

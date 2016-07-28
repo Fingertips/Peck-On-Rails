@@ -105,6 +105,8 @@ class Peck
           end
         end
 
+        alias_method :eql?, :==
+
         def inspect
           "#<Peck::Rails::Controller::Status:#{@response.status}>"
         end
