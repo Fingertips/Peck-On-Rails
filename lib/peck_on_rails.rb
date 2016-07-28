@@ -32,7 +32,7 @@ class Peck
       context.description.find { |a| a.is_a?(Module) }
     end
 
-    def self.context_type_for_description(context, subject)
+    def self.context_type_for_description(context, _)
       context.description.find do |subject|
         subject.is_a?(Symbol)
       end
