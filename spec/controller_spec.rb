@@ -35,5 +35,10 @@ describe AuthorsController, "concerning controller-specific requirements" do
   should.not.disallow.get :index
 
   should.find.get :index
-  should.not.find.get :show, id: 12
+
+  if Rails.version >= "5.0.0"
+    should.not.find.get :show, params: { id: 12 }
+  else
+    should.not.find.get :show, id: 12
+  end
 end
