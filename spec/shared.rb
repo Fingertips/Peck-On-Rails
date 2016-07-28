@@ -24,8 +24,11 @@ require 'rack/test'
 puts "Running on Rails #{Rails.version}"
 
 module Rails
-  def self.root
-    File.expand_path('../implementation', __FILE__)
+  class << self
+    undef :root
+    def root
+      File.expand_path('../implementation', __FILE__)
+    end
   end
 end
 

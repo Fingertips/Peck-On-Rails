@@ -6,4 +6,4 @@ yes | gem install i18n --version "~> 0.6.0"
 yes | gem install rails --version "~> 3.2.0"
 yes | gem install rails --version "~> 4.0.0"
 yes | gem install rails --version "~> 4.1.0"
-yes | gem install rails --pre
+yes | gem install rails --version "~> 5.0.0"

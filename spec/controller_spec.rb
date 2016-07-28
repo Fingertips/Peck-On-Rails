@@ -8,7 +8,7 @@ describe AuthorsController do
   end
 
   it "has the right controller class configured" do
-    _controller_class.should == AuthorsController
+    _controller_class.should.eql(AuthorsController)
   end
 end
 
@@ -35,5 +35,10 @@ describe AuthorsController, "concerning controller-specific requirements" do
   should.not.disallow.get :index
 
   should.find.get :index
-  should.not.find.get :show, id: 12
+
+  if Rails.version >= "5.0.0"
+    should.not.find.get :show, params: { id: 12 }
+  else
+    should.not.find.get :show, id: 12
+  end
 end

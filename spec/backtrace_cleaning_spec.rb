@@ -18,8 +18,8 @@ describe Peck::Rails::BacktraceCleaning do
       "default - line 1",
       "default - line 2",
       "other stuff"
-    ]).should == [
+    ]).should.eql([
       "other stuff"
-    ]
+    ])
   end
 end

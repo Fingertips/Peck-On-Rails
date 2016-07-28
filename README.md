@@ -53,7 +53,7 @@ Peck-On-Rails automatically supports model, controller, and helper specs. By def
     describe "A new", Book do
       it "does not have any pages" do
         book = Book.new
-        book.pages.count.should == 0
+        book.pages.count.should.eql(0)
       end
     end
 
@@ -98,7 +98,7 @@ In `:helper` specs you automatically get your helper module included.
     describe BooksHelper do
       it "formats titles" do
         book = Book.new(title: 'Little Pinguin', :number = 12)
-        format_book_title(book).should == "12. Little Pinguin"
+        format_book_title(book).should.eql("12. Little Pinguin")
       end
     end
 
@@ -109,7 +109,7 @@ For controller specs you get a `@controller` instance, a `controller` accessor, 
     describe "On the", BooksController, "a visitor" do
       it "sees an overview of recent books" do
         get :index
-        status.should == :ok
+        status.should.eql(:ok)
         templates.should.include 'books/index'
         body.should.match_css 'h1' # Only possible when Nokogiri is installed
         body.should.match_xpath '//h1' # Only possible when Nokogiri is installed
