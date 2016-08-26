@@ -134,8 +134,8 @@ class Peck
 
     def equal_record_set(*others)
       left, right = @this, others
-      left.flatten! if left.respond_to?(:flatten)
-      right.flatten! if right.respond_to?(:flatten)
+      left.flatten! if left.respond_to?(:flatten!)
+      right.flatten! if right.respond_to?(:flatten!)
 
       message = "Expected the record set to be #{!@negated ? 'equal' : 'unequal'}: #{left.map(&:id).inspect} - #{right.map(&:id).inspect}"
       satisfy(message) { Set.new(left) == Set.new(right) }
@@ -143,8 +143,8 @@ class Peck
 
     def equal_record_array(*others)
       left, right = @this, others
-      left.flatten! if left.respond_to?(:flatten)
-      right.flatten! if right.respond_to?(:flatten)
+      left.flatten! if left.respond_to?(:flatten!)
+      right.flatten! if right.respond_to?(:flatten!)
 
       message = "Expected the array of records to be #{!@negated ? 'equal' : 'unequal'}: #{left.map(&:id).inspect} - #{right.map(&:id).inspect}"
       satisfy(message) { left == right }
@@ -152,8 +152,8 @@ class Peck
 
     def equal_set(*others)
       left, right = @this, others
-      left.flatten! if left.respond_to?(:flatten)
-      right.flatten! if right.respond_to?(:flatten)
+      left.flatten! if left.respond_to?(:flatten!)
+      right.flatten! if right.respond_to?(:flatten!)
 
       message = "Expected sets to be #{!@negated ? 'equal' : 'unequal'}: #{left.inspect} - #{right.inspect}"
       satisfy(message) { Set.new(left) == Set.new(right) }
