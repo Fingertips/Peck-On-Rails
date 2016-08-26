@@ -8,6 +8,7 @@ require File.expand_path('../../../shared', __FILE__)
 Vanilla::Application.routes.draw do
   get 'authors', :to => 'authors#index'
   get 'authors/:id', :to => 'authors#show'
+  get 'authors/:id/name', :to => 'authors#name'
   get 'authors/restricted', :to => 'authors#restricted'
   get 'authors/disallowed', :to => 'authors#disallowed'
 end

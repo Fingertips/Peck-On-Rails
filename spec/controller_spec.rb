@@ -10,6 +10,23 @@ describe AuthorsController do
   it "has the right controller class configured" do
     _controller_class.should.eql(AuthorsController)
   end
+
+  if Rails.version >= "5.0.0"
+    it "raises an exception when none of the template instance variables are defined" do
+      lambda do
+        templates
+      end.should.raise(NoMethodError)
+    end
+  else
+    it "returns an empty array when nothing was rendered" do
+      templates.should.eql []
+    end
+
+    it "returns the path to the template when something was rendered" do
+      get :name, id: 12
+      templates.should.eql %w(authors/name)
+    end
+  end
 end
 
 describe AuthorsController, "concerning controller-specific requirements" do
