@@ -64,7 +64,13 @@ class Peck
         def templates
           # Force body to be read in case the template is being streamed
           response.body
-          (@templates || @_templates).keys
+          if defined?(@templates)
+            @templates.keys
+          elsif defined?(@_templates)
+            @_templates.keys
+          else
+            raise NoMethodError, "Can't access rendered templates, you might need the rails-controller-testing gem."
+          end
         end
 
         def body
